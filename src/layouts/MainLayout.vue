@@ -6,7 +6,7 @@
     />
 
     <Sidebar
-      v-model="isOpen"
+      :isOpen="isOpen"
     />
 
     <main class="app-content" :class="{ full: !isOpen }">

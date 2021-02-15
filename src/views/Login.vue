@@ -36,8 +36,7 @@
             v-model="password"
             :class="{
               invalid:
-              ($v.password.$dirty && !$v.password.required) ||
-              ($v.password.$dirty && !$v.password.minLength)
+              $v.password.$dirty && !$v.password.required
             }"
         >
         <label for="password">Пароль</label>
@@ -46,14 +45,6 @@
           v-if="$v.password.$dirty && !$v.password.required"
         >
           Введите пароль
-        </small>
-        <small
-          class="helper-text invalid"
-          v-else-if="$v.password.$dirty && !$v.password.minLength"
-        >
-          Пароль должен быть не менее
-            {{ $v.password.$params.minLength.min }}
-            символов. Сейчас он {{ password.length }}
         </small>
       </div>
     </div>
@@ -77,7 +68,8 @@
 </template>
 
 <script>
-import { email, required, minLength } from 'vuelidate/lib/validators';
+import { email, required } from 'vuelidate/lib/validators';
+import messages from '@/utils/messages';
 
 export default {
   name: 'login',
@@ -87,7 +79,12 @@ export default {
   }),
   validations: {
     email: { email, required },
-    password: { required, minLength: minLength(6) },
+    password: { required },
+  },
+  mounted() {
+    if (messages[this.$route.query.message]) {
+      this.$message(messages[this.$route.query.message]);
+    }
   },
   methods: {
     submitHandler() {

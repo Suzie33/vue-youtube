@@ -2,16 +2,17 @@ import firebase from 'firebase/app';
 
 export default {
   actions: {
-    async login(ctx, { email, password }) {
+    async login({ commit }, { email, password }) {
       // eslint-disable-next-line no-useless-catch
       try {
         await firebase.auth().signInWithEmailAndPassword(email, password);
       } catch (error) {
+        commit('setError', error);
         throw error;
       }
     },
 
-    async register({ dispatch }, { email, password, name }) {
+    async register({ commit, dispatch }, { email, password, name }) {
       // eslint-disable-next-line no-useless-catch
       try {
         await firebase.auth().createUserWithEmailAndPassword(email, password);
@@ -21,6 +22,7 @@ export default {
           name,
         });
       } catch (error) {
+        commit('setError', error);
         throw error;
       }
     },

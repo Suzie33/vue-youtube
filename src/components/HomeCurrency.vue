@@ -17,7 +17,7 @@
           <tbody>
             <tr v-for="cur of currencies" :key="cur">
               <td>{{ cur }}</td>
-              <td>{{ rates[cur].toFixed(4) }}</td>
+              <td>{{ convertCur(cur).toFixed(2) }}</td>
               <td>{{ date }}</td>
             </tr>
           </tbody>
@@ -33,5 +33,10 @@ export default {
   data: () => ({
     currencies: ['RUB', 'USD', 'EUR'],
   }),
+  methods: {
+    convertCur(currency) {
+      return (this.rates.EUR / this.rates[currency]) * this.rates.RUB;
+    },
+  },
 };
 </script>

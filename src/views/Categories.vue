@@ -12,9 +12,17 @@
         />
 
         <CategoryEdit
+          v-if="categories.length"
           :categories="categories"
+          :key="categories.length + updateCount"
           @categoryUpdated="updateCategory"
         />
+        <p
+          class="center"
+          v-else
+        >
+          Категорий пока нет
+        </p>
       </div>
     </section>
   </div>
@@ -29,6 +37,7 @@ export default {
   data: () => ({
     categories: [],
     loading: true,
+    updateCount: 0,
   }),
   components: {
     CategoryCreate,
@@ -46,6 +55,7 @@ export default {
       const idx = this.categories.findIndex((cat) => cat.id === category.id);
       this.categories[idx].title = category.title;
       this.categories[idx].limit = category.limit;
+      this.updateCount += 1;
     },
   },
 };
